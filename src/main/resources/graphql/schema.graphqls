@@ -1,0 +1,102 @@
+type Query {
+  getAllUsers: [User!]!
+
+  getAllEmployees: [Employee!]!
+  getEmployees(page: Int, size: Int): EmployeePage
+  getEmployee(id: ID!): Employee
+}
+
+type Mutation {
+  # register(username: String!, password: String!): User
+  login(username: String!, password: String!): AuthResponse
+
+  addEmployee(
+    employee: EmployeeInput!
+  ): Employee!
+  updateEmployee(
+    id: ID!
+    employee: EmployeeInput!
+  ): Employee
+  deleteEmployee(
+    id: ID!,
+  ): Boolean
+}
+
+type User {
+  id: ID!
+  username: String!
+  userType: String!
+}
+
+type AuthResponse {
+  token: String!
+  user: User
+  status: String!
+  message: String!
+}
+
+type EmployeePage {
+  employees: [Employee!]!
+  totalCount: Int!
+  totalPages: Int!
+}
+
+type Employee {
+  id: ID!
+  firstName: String!
+  middleName: String
+  lastName: String!
+  birthDate: String!
+  gender: String!
+  maritalStatus: String!
+  position: String!
+  dateHired: String!
+  contacts: [Contact!]!
+  addresses: [Address!]!
+  createdAt: String!
+  updatedAt: String
+  deletedAt: String
+  isDeleted: Boolean
+}
+
+type Contact {
+  id: ID!
+  employee: Employee!
+  value: String!
+  isPrimary: Boolean!
+}
+
+type Address {
+  id: ID!
+  employee: Employee!
+  address1: String!
+  address2: String!
+  isPrimary: Boolean!
+}
+
+input EmployeeInput {
+  id: ID
+  firstName: String!
+  middleName: String
+  lastName: String!
+  birthDate: String!
+  gender: String!
+  maritalStatus: String!
+  position: String!
+  dateHired: String!
+  contacts: [ContactInput!]!
+  addresses: [AddressInput!]!
+}
+
+input ContactInput {
+  id: ID
+  value: String!
+  isPrimary: Boolean!
+}
+
+input AddressInput {
+  id: ID
+  address1: String!
+  address2: String!
+  isPrimary: Boolean!
+}
